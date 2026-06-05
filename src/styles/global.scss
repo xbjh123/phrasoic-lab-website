@@ -1,0 +1,274 @@
+// ============================================================
+// PHRASOIC LAB · Global Styles
+// ============================================================
+@use 'tokens' as *;
+@use 'typography';
+@use 'glass';
+
+// ── @property — register blob & glass colors for transition ──
+@property --blob-1 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(155, 165, 175, 0.35);
+}
+@property --blob-2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(175, 182, 188, 0.30);
+}
+@property --blob-3 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(168, 173, 178, 0.32);
+}
+
+// ── Font Faces — ITC Avant Garde Gothic (5 weights) ─────────
+@font-face {
+  font-family: 'AvantGardeGothic';
+  src: url('/fonts/ITCAvantGardeGothicW05-XLt.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AvantGardeGothic';
+  src: url('/fonts/ITCAvantGardeGothicW05-Book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AvantGardeGothic';
+  src: url('/fonts/ITCAvantGardeGothicW10-It.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AvantGardeGothic';
+  src: url('/fonts/ITCAvantGardeGothicW02-Md.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AvantGardeGothic';
+  src: url('/fonts/ITCAvantGardeGothicW05-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AvantGardeGothic';
+  src: url('/fonts/ITCAvantGardeGothicW07-BdObl.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+// ── CSS Reset ───────────────────────────────────────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// ── CSS Custom Properties ───────────────────────────────────
+:root {
+  --primary: #{$color-primary};
+  --primary-light: #{$color-primary-light};
+  --primary-dark: #{$color-primary-dark};
+  --accent: #{$color-accent};
+  --accent-light: #{$color-accent-light};
+  --bg: #{$color-bg};
+  --surface: #{$color-surface};
+  --card: #{$color-card};
+  --text: #{$color-text};
+  --text-light: #{$color-text-light};
+  --text-muted: #{$color-text-muted};
+  --border: #{$color-border};
+  --border-light: #{$color-border-light};
+  --nav-height: #{$nav-height};
+  --radius: #{$border-radius};
+  --font-display: #{$font-display};
+  --font-body: #{$font-body};
+  --font-mono: #{$font-mono};
+
+  --blob-1: rgba(155, 165, 175, 0.35);
+  --blob-2: rgba(175, 182, 188, 0.30);
+  --blob-3: rgba(168, 173, 178, 0.32);
+}
+
+[data-theme="dark"] {
+  --primary: #{$dark-primary};
+  --primary-light: #{$dark-primary};
+  --primary-dark: #{$dark-text-light};
+  --accent: #{$dark-accent};
+  --accent-light: #{$dark-accent};
+  --bg: #{$dark-bg};
+  --surface: #{$dark-surface};
+  --card: #{$dark-card};
+  --text: #{$dark-text};
+  --text-light: #{$dark-text-light};
+  --text-muted: #{$dark-text-muted};
+  --border: #{$dark-border};
+  --border-light: #{$dark-border-light};
+
+  --blob-1: rgba(75, 83, 90, 0.25);
+  --blob-2: rgba(90, 96, 102, 0.22);
+  --blob-3: rgba(85, 90, 95, 0.22);
+}
+
+// ── HTML / Body ────────────────────────────────────────────
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  transition: background-color 0.8s ease;
+}
+
+// ── Reduced motion — ────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ── Theme switch animation ──────────────────────────────────
+html.theme-switching .bg-layers__blobs::before,
+html.theme-switching .bg-layers__blobs::after,
+html.theme-switching .bg-layers__blob-center {
+  animation-duration: 2s !important;
+  filter: blur(140px) !important;
+  transition: filter 0.8s ease;
+}
+
+html.theme-switching .page-content {
+  transition: opacity 0.4s ease;
+}
+
+html.theme-switching * {
+  transition: background-color 0.8s ease,
+              color 0.8s ease,
+              border-color 0.8s ease,
+              box-shadow 0.8s ease !important;
+}
+
+// ── Background layers — Apple Music morphing blobs ─────────
+.bg-layers {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  @include glass.bg-base;
+}
+
+.bg-layers__blobs {
+  @include glass.bg-blobs;
+}
+
+.bg-layers__blob-center {
+  @include glass.bg-blob-center;
+}
+
+// ── Content wrapper (above bg layers for backdrop-filter) ───
+.page-content {
+  position: relative;
+  z-index: 2;
+}
+
+// ── Utility: archive tag ────────────────────────────────────
+.archive-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: $font-mono;
+  font-size: $text-tag;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  border-radius: $border-radius;
+  background: rgba($color-primary, 0.08);
+  border: 1px solid rgba($color-primary, 0.15);
+  color: $color-primary;
+  white-space: nowrap;
+
+  [data-theme="dark"] & {
+    background: rgba($dark-primary, 0.06);
+    border-color: rgba($dark-primary, 0.12);
+    color: $dark-primary;
+  }
+
+  &--accent {
+    background: rgba($color-accent, 0.06);
+    border-color: rgba($color-accent, 0.2);
+    color: $color-accent;
+
+    [data-theme="dark"] & {
+      background: rgba($dark-accent, 0.06);
+      border-color: rgba($dark-accent, 0.18);
+      color: $dark-accent;
+    }
+  }
+}
+
+// ── Utility: archive divider ─────────────────────────────────
+.archive-divider {
+  @include glass.archive-divider;
+}
+
+// ── Utility: content wrapper ─────────────────────────────────
+.content-wrap {
+  max-width: $content-max;
+  margin: 0 auto;
+  padding: 0 $space-6;
+
+  @media (min-width: $bp-tablet) {
+    padding: 0 $space-10;
+  }
+}
+
+// ── HTML / Body dark mode overrides ──────────────────────────
+html[data-theme="light"] { background: #F0F2F5; color: #2A2A2A; transition: background 0.8s ease, color 0.8s ease; }
+html[data-theme="dark"]  { background: #14171C; color: #E8ECF1; transition: background 0.8s ease, color 0.8s ease; }
+
+html:not([data-theme]) body {
+  transition: background-color 0.3s ease,
+              color 0.3s ease;
+}
+
+// ── Language toggle visibility ───────────────────────────────
+[data-lang="en"] .lang-zh { display: none; }
+[data-lang="zh"] .lang-en { display: none; }
+
+// ── Utility: corner marks ────────────────────────────────────
+.corner-marks {
+  @include glass.corner-marks;
+}
+
+// ── Utility: tech dashed line ────────────────────────────────
+.tech-dashed {
+  @include glass.tech-dashed-line;
+}
+
+// ── Utility: tech stamp text ─────────────────────────────────
+.tech-stamp {
+  @include glass.tech-stamp;
+}
+
+// ── Utility: tech meta label ─────────────────────────────────
+.tech-meta {
+  @include glass.tech-meta;
+}

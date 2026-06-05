@@ -1,0 +1,211 @@
+---
+import type { Post } from '../data/posts';
+import { SITE } from '../data/posts';
+import SystemBar from './SystemBar.astro';
+
+export interface Props { posts: Post[] }
+
+const POSTS = Astro.props.posts;
+
+function cardHTML(p: Post, id: string, front: boolean) {
+  const tags = p.tags.map(t => `<span class="ct">${t}</span>`).join('');
+  const src = p.image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=400&fit=crop&auto=format';
+  return `<div class="cd ${front ? 'cd--f' : 'cd--b'}" id="cd-${id}">
+    <div class="cd-bar">
+      <span class="cd-dot"></span>
+      <span class="lang-en cd-bl">[FEATURED ENTRY]</span>
+      <span class="lang-zh cd-bl">[精选条目]</span>
+      <span class="cd-cat" id="ct-${id}">${p.cat}</span>
+      <span class="cd-ts" id="ts-${id}">${p.date}</span>
+    </div>
+    <div class="cd-cv"><img src="${src}" alt="" class="cd-img" id="im-${id}" /></div>
+    <div class="cd-bd">
+      <a href="/blog/${p.slug}" class="cd-lnk" id="lk-${id}"><h2 class="cd-tt" id="tt-${id}">${p.title}</h2></a>
+      <p class="cd-ex" id="ex-${id}">${p.excerpt}</p>
+      <div class="cd-ds"></div>
+      <div class="cd-mt">
+        <div class="cd-tg" id="tg-${id}">${tags}</div>
+        <span class="cd-rd"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span id="mn-${id}">${p.min}</span> MIN</span>
+      </div>
+    </div>
+    <div class="cd-ft">
+      <div class="cd-fl">
+        <span class="cd-fd"></span>
+        <span class="lang-en" id="fl-${id}">${p.label || 'LATEST TRANSMISSION'}</span>
+        <span class="lang-zh" id="fz-${id}">${p.labelZh || '最新传输'}</span>
+      </div>
+      <a href="/blog/${p.slug}" class="cd-flk" id="bl-${id}"><span class="lang-en">READ FULL ENTRY</span><span class="lang-zh">阅读全文</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+  </div>`;
+}
+---
+
+<section class="h">
+  <div class="h__in content-wrap">
+    <div class="h__g">
+      <div class="h__l">
+        <div class="h__lb"><span>&#9670;</span> PERSONAL LOG <span class="h__ll"></span> <span class="h__ls">2021 —</span></div>
+        <div class="h__au">Phrasoic Lab</div>
+        <h1 class="h__t">我们共享知识与命运</h1>
+        <p class="h__d"><span class="lang-en">Personal Wiki · Design Notes · Technical Archive</span><span class="lang-zh">个人知识库 · 设计笔记 · 技术档案</span></p>
+        <a href="#entries" class="h__b">READ ENTRIES <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        <div class="h__st"><SystemBar entries={[{label:"ENTRIES_TOTAL",value:String(SITE.entries)},{label:"ACTIVE_SINCE",value:SITE.since},{label:"WORDS_WRITTEN",value:SITE.words},{label:"STATUS",value:"TRANSMITTING"}]} status="ONLINE" statusLabel="OPERATOR" /></div>
+      </div>
+      <div class="h__r">
+        <div class="st" id="st" data-pool={JSON.stringify(POSTS.slice(0,3).map(p => ({cat:p.cat, date:p.date, slug:p.slug||p.slug, title:p.title, excerpt:p.excerpt, min:p.min, tags:p.tags, label:p.label||'LATEST TRANSMISSION', labelZh:p.labelZh||'最新传输', img:p.image||''})))}>
+          {POSTS.slice(0, 3).map((p, i) => (
+            <Fragment set:html={cardHTML(p, ['a','b','c'][i], i === 0)} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="h__fd"></div>
+</section>
+
+<script>
+  (function() {
+  const st = document.getElementById('st');
+  if (!st) return;
+  const defImg = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=400&fit=crop&auto=format';
+  const pool = (window.__HERO_POOL__ || []).map(d => ({...d, img: d.img || defImg}));
+  const ids = ['a','b','c'];
+  const cs = ids.map(p => ({ el: document.getElementById('cd-'+p), p })).filter(x => x.el);
+  if (cs.length === 0) return;
+
+  function fill(prefix, d) {
+    const map = {ct:d.cat, ts:d.date, tt:d.title, ex:d.excerpt, mn:d.min, fl:d.label, fz:d.labelZh};
+    Object.keys(map).forEach(k => {
+      const e = document.getElementById(k+'-'+prefix);
+      if (e) e.textContent = map[k];
+    });
+    const tg = document.getElementById('tg-'+prefix);
+    if (tg) tg.innerHTML = d.tags.map(t=>`<span class="ct">${t}</span>`).join('');
+    const lk = document.getElementById('lk-'+prefix);
+    const bl = document.getElementById('bl-'+prefix);
+    const im = document.getElementById('im-'+prefix);
+    if (lk) lk.href = '/blog/'+d.slug;
+    if (bl) bl.href = '/blog/'+d.slug;
+    if (im) im.src = d.img || defImg;
+  }
+
+  function rotate() {
+    if (busy || cs.length < 2) return; busy = true;
+    fill(cs[0].p, pool[ni]); ni = (ni+1) % pool.length;
+    requestAnimationFrame(() => {
+      cs[0].el.classList.add('cd--out');
+      cs[1].el.classList.add('cd--in');
+    });
+    setTimeout(() => {
+      cs[0].el.classList.remove('cd--out','cd--f');
+      if (cs.length === 2) cs[0].el.classList.add('cd--b');
+      else cs[0].el.classList.add('cd--b');
+      cs[1].el.classList.remove('cd--in');
+      if (cs[1].el.classList.contains('cd--b')) cs[1].el.classList.remove('cd--b');
+      cs[1].el.classList.add('cd--f');
+      if (cs.length >= 3) {
+        cs[2].el.classList.remove('cd--b');
+        cs[2].el.classList.add('cd--b');
+      }
+      cs.push(cs.shift());
+      busy = false;
+    }, 450);
+  }
+    if (pool.length > 1) setInterval(rotate, 4000);
+  })();
+</script>
+
+<style lang="scss" is:global>
+  @use 'sass:color';
+  @use '../styles/tokens' as *;
+  @use '../styles/glass';
+
+  .h { position:relative; min-height:100vh; display:flex; flex-direction:column; overflow:hidden; padding-top:$nav-height; }
+  .h__in { flex:1; display:flex; align-items:center; padding:$space-10 0; }
+  .h__g { display:grid; grid-template-columns:1fr; gap:$space-12; align-items:start; width:100%;
+    @media(min-width:$bp-tablet){ grid-template-columns:1fr 1.1fr; gap:0; }
+  }
+  .h__l { display:flex; flex-direction:column; gap:$space-4;
+    @media(min-width:$bp-tablet){ padding-right:$space-10; padding-top:$space-8; }
+  }
+  .h__lb { display:flex; align-items:center; gap:$space-2; font-size:.7rem; color:var(--primary);
+    span { font-size:.65rem; }
+  }
+  .h__ll { width:32px; height:1px; background:rgba($color-primary,.3);
+    [data-theme="dark"] & { background:rgba($dark-primary,.25); }
+  }
+  .h__ls { color:var(--text-muted); opacity:.5; }
+  .h__au { font-size:.65rem; color:var(--text-muted); margin-bottom:-$space-1; }
+  .h__t { font-family:$font-display; font-size:$text-hero; font-weight:$weight-black; line-height:1.06; letter-spacing:-.02em; color:var(--text);
+    [data-theme="dark"] & { color:$dark-text; }
+  }
+  .h__d { font-size:.9rem; line-height:1.65; max-width:360px; color:var(--text-light); }
+  .h__b { display:inline-flex; align-items:center; gap:$space-2; padding:10px 22px; border-radius:$border-radius; border:none; background:var(--primary); color:var(--bg); font-family:$font-display; font-size:.85rem; font-weight:$weight-semibold; letter-spacing:.06em; text-decoration:none; transition:background .15s,transform .15s; margin-top:$space-1;
+    &:hover { background:var(--primary-light); transform:translateY(-1px); }
+    [data-theme="dark"] & { color:$dark-bg; &:hover { background:color.adjust($dark-primary,$lightness:8%); } }
+  }
+  .h__st { margin-top:$space-4; align-self:flex-start; min-width:260px; }
+  .h__r { position:relative; z-index:10;
+    @media(min-width:$bp-tablet){ padding-top:$space-24; }
+    @media(max-width:($bp-tablet - 1px)){ margin-top:$space-4; }
+  }
+  .st { position:relative; height:520px; }
+  .cd { position:absolute; inset:0; display:flex; flex-direction:column; background:var(--card); border-radius:$border-radius; overflow:hidden; box-shadow:0 2px 32px rgba(0,0,0,.04),0 0 60px rgba(140,145,150,.04);
+    [data-theme="dark"] & { background:$dark-card; box-shadow:0 2px 32px rgba(0,0,0,.2),0 0 60px rgba(100,105,110,.02); }
+  }
+  .cd--f { z-index:3; opacity:1; }
+  .cd--b { z-index:1; opacity:.12; pointer-events:none; }
+  .cd--out { animation:co .45s ease forwards; z-index:5; }
+  .cd--in  { animation:ci .45s ease forwards; z-index:4; }
+  @keyframes co { 0%{opacity:1} 100%{opacity:0} }
+  @keyframes ci { 0%{opacity:0} 100%{opacity:1} }
+
+  .cd-bar { display:flex; align-items:center; gap:6px; padding:5px 14px; background:rgba($color-primary,.06); border-bottom:1px solid var(--border-light); flex-shrink:0;
+    [data-theme="dark"] & { background:rgba($dark-bg,.5); border-color:$dark-border; }
+  }
+  .cd-dot { width:5px; height:5px; border-radius:50%; background:$color-primary; flex-shrink:0;
+    [data-theme="dark"] & { background:$dark-primary; }
+  }
+  .cd-bl { font-family:$font-mono; font-size:.58rem; letter-spacing:.07em; text-transform:uppercase; color:var(--text-muted); }
+  .cd-cat { margin-left:auto; font-family:$font-mono; font-size:.6rem; padding:1px 5px; border-radius:$border-radius; background:rgba($color-primary,.1); color:var(--primary);
+    [data-theme="dark"] & { background:rgba($dark-primary,.08); color:$dark-primary; }
+  }
+  .cd-ts { font-family:$font-mono; font-size:.55rem; color:var(--text-muted); opacity:.45; }
+
+  .cd-cv { height:180px; background:var(--surface); overflow:hidden; flex-shrink:0;
+    [data-theme="dark"] & { background:color.adjust($dark-bg, $lightness: -2%); }
+  }
+  .cd-img { width:100%; height:100%; object-fit:cover; opacity:.45;
+    [data-theme="dark"] & { opacity:.35; filter:brightness(.6); }
+  }
+
+  .cd-bd { padding:16px; display:flex; flex-direction:column; gap:8px; flex:1; min-height:0; overflow:hidden; }
+  .cd-lnk { text-decoration:none; flex-shrink:0; }
+  .cd-tt { font-family:$font-display; font-size:1.15rem; font-weight:$weight-bold; line-height:1.25; color:var(--text); transition:color .15s;
+    [data-theme="dark"] & { color:$dark-text; }
+    .cd-lnk:hover & { color:var(--accent); }
+  }
+  .cd-ex { font-size:.82rem; line-height:1.5; color:var(--text-light); flex-shrink:0;
+    [data-theme="dark"] & { color:$dark-text-light; }
+  }
+  .cd-ds { height:1px; background:repeating-linear-gradient(90deg,rgba(150,152,156,.15) 0,rgba(150,152,156,.15) 4px,transparent 4px,transparent 8px); flex-shrink:0;
+    [data-theme="dark"] & { background:repeating-linear-gradient(90deg,rgba(100,105,110,.1) 0,rgba(100,105,110,.1) 4px,transparent 4px,transparent 8px); }
+  }
+  .cd-mt { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; flex-shrink:0; margin-top:auto; }
+  .cd-rd { display:flex; align-items:center; gap:4px; font-size:.6rem; color:var(--text-muted); font-family:$font-mono; white-space:nowrap; }
+  .ct { font-family:$font-mono; font-size:.65rem; padding:2px 6px; border-radius:$border-radius; background:rgba($color-primary,.08); border:1px solid rgba($color-primary,.15); color:$color-primary; white-space:nowrap;
+    [data-theme="dark"] & { background:rgba($dark-primary,.05); border-color:rgba($dark-primary,.1); color:$dark-primary; }
+  }
+
+  .cd-ft { display:flex; align-items:center; justify-content:space-between; padding:7px 16px; background:rgba($color-primary,.04); border-top:1px solid var(--border-light); flex-shrink:0;
+    [data-theme="dark"] & { background:rgba($dark-bg,.35); border-color:$dark-border; }
+  }
+  .cd-fl { display:flex; align-items:center; gap:5px; }
+  .cd-fd { width:5px; height:5px; border-radius:50%; background:#5a9e6f; flex-shrink:0; animation:pd 2s ease-in-out infinite; }
+  .cd-flk { display:flex; align-items:center; gap:5px; color:var(--primary); text-decoration:none; font-family:$font-ui; font-size:.68rem; font-weight:600; transition:color .15s;
+    &:hover { color:var(--accent); }
+  }
+  @keyframes pd { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+  .h__fd { position:absolute; bottom:0; left:0; right:0; height:120px; pointer-events:none; background:linear-gradient(to bottom,transparent,var(--bg)); }
+</style>

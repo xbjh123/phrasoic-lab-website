@@ -1,0 +1,141 @@
+// ============================================================
+// PHRASOIC LAB · Typography
+// ============================================================
+@use 'tokens' as *;
+
+// ── Headings ────────────────────────────────────────────────
+h1, .h1 {
+  font-family: $font-display;
+  font-size: $text-h1;
+  font-weight: $weight-bold;
+  line-height: $leading-heading;
+  letter-spacing: -0.02em;
+  color: $color-text;
+
+  [data-theme="dark"] & { color: $dark-text; }
+}
+
+h2, .h2 {
+  font-family: $font-display;
+  font-size: $text-h2;
+  font-weight: $weight-semibold;
+  line-height: $leading-heading;
+  letter-spacing: -0.01em;
+  color: $color-text;
+
+  [data-theme="dark"] & { color: $dark-text; }
+}
+
+h3, .h3 {
+  font-family: $font-display;
+  font-size: $text-h3;
+  font-weight: $weight-semibold;
+  line-height: $leading-heading;
+  color: $color-text;
+
+  [data-theme="dark"] & { color: $dark-text; }
+}
+
+// ── Body ────────────────────────────────────────────────────
+body {
+  font-family: $font-body;
+  font-size: $text-body;
+  font-weight: $weight-regular;
+  line-height: $leading-body;
+  color: $color-text;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  [data-theme="dark"] & {
+    color: $dark-text;
+  }
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+// ── UI Text ─────────────────────────────────────────────────
+.ui-text {
+  font-family: $font-ui;
+  font-size: $text-ui;
+  line-height: 1.5;
+}
+
+// ── Meta / Label Text (mono, small, uppercase) ───────────────
+.meta-text {
+  font-family: $font-mono;
+  font-size: $text-small;
+  letter-spacing: 0.04em;
+}
+
+.label-text {
+  font-family: $font-mono;
+  font-size: $text-tag;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+// ── Code ────────────────────────────────────────────────────
+code {
+  font-family: $font-mono;
+  font-size: $text-code;
+}
+
+pre {
+  margin: 1.5em 0;
+  padding: 1.2em 1.5em;
+  background: #f5f6f8;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid rgba($color-primary, 0.12);
+
+  [data-theme="dark"] & {
+    background: #1a1d22;
+    border-color: rgba($dark-primary, 0.15);
+  }
+
+  code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font-size: 0.85em;
+    line-height: 1.6;
+
+    [data-theme="dark"] & {
+      color: $dark-text-light;
+    }
+  }
+}
+
+// ── Links ───────────────────────────────────────────────────
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: $color-accent;
+  }
+
+  [data-theme="dark"] & {
+    color: $dark-primary;
+
+    &:hover {
+      color: $dark-accent;
+    }
+  }
+}
+
+// ── Blockquote ──────────────────────────────────────────────
+blockquote {
+  border-left: 3px solid $color-accent;
+  margin: 1.5em 0;
+  padding: 0.5em 1em;
+  background: rgba($color-accent, 0.04);
+
+  [data-theme="dark"] & {
+    border-left-color: $dark-accent;
+    background: rgba($dark-accent, 0.04);
+  }
+}

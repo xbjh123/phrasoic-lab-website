@@ -1,0 +1,174 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import type { Post } from '../data/posts';
+
+export interface Props { post: Post }
+
+const { post } = Astro.props;
+const datePart = post.date.split(' — ')[0];
+const defImg = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=600&fit=crop&auto=format';
+---
+
+<BaseLayout title={`${post.title} — PHRASOIC LAB`}>
+  <Nav />
+  <article class="a">
+    <div class="a__in content-wrap">
+
+      <!-- Cover image -->
+      <div class="a__cv">
+        <img src={post.image || defImg} alt="" class="a__img" />
+      </div>
+
+      <!-- Header -->
+      <header class="a__hd">
+        <nav class="a__bc">
+          <a href="/archive" class="a__bc-link"><span class="lang-en">Archive</span><span class="lang-zh">归档</span></a>
+          <span class="a__bc-sep">/</span>
+          <span class="a__bc-current">{post.cat}</span>
+        </nav>
+        <div class="a__meta">
+          <span class="archive-tag" style="font-size:.68rem">{post.cat}</span>
+          <span class="a__doc">{post.docId}</span>
+          <span class="a__dot"></span>
+          <span class="a__date">{datePart} · {post.min} MIN</span>
+        </div>
+        <h1 class="a__t">{post.title}</h1>
+        <p class="a__ex">{post.excerpt}</p>
+        <div class="a__tags">
+          {post.tags.map((t) => (<span class="archive-tag archive-tag--accent" data-prefix="#">{t}</span>))}
+        </div>
+      </header>
+
+      <!-- Body -->
+      <div class="a__bd">
+        <Fragment set:html={post.body} />
+      </div>
+
+      <hr class="a__hr" />
+
+      <!-- Footer nav -->
+      <nav class="a__fn">
+        <a href="/archive" class="a__fn-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <span class="lang-en">Back to Archive</span>
+          <span class="lang-zh">返回归档</span>
+        </a>
+      </nav>
+
+    </div>
+  </article>
+  <Footer />
+</BaseLayout>
+
+<style lang="scss" is:global>
+  @use '../styles/tokens' as *;
+
+  .a { padding-top: $nav-height; padding-bottom: $space-24; min-height: 100vh; }
+  .a__in { max-width: 760px; }
+
+  // cover
+  .a__cv { margin-bottom: $space-10; border-radius: $border-radius; overflow: hidden; background: var(--surface);
+    [data-theme="dark"] & { background: $dark-surface; }
+  }
+  .a__img { display: block; width: 100%; height: auto; max-height: 400px; object-fit: cover; opacity: .85;
+    [data-theme="dark"] & { opacity: .6; filter: brightness(.7); }
+  }
+
+  // header
+  .a__hd { margin-bottom: $space-10; }
+  .a__bc { display: flex; align-items: center; gap: 6px; margin-bottom: $space-6; font-family: $font-mono; font-size: .65rem;
+    color: var(--text-muted); opacity: .6;
+  }
+  .a__bc-link { color: var(--primary); text-decoration: none; transition: color .15s;
+    &:hover { color: var(--accent); }
+  }
+  .a__bc-sep { opacity: .4; }
+  .a__bc-current { opacity: .7; text-transform: uppercase; }
+
+  .a__meta { display: flex; align-items: center; gap: $space-3; flex-wrap: wrap; margin-bottom: $space-4; }
+  .a__doc { font-family: $font-mono; font-size: .62rem; color: var(--text-muted); opacity: .5; }
+  .a__dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text-muted); opacity: .35; }
+  .a__date { font-family: $font-mono; font-size: .65rem; color: var(--text-muted); }
+
+  .a__t { font-family: $font-display; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: $weight-black; line-height: 1.12; letter-spacing: -.02em;
+    color: var(--text); margin-bottom: $space-3;
+    [data-theme="dark"] & { color: $dark-text; }
+  }
+  .a__ex { font-size: 1.05rem; line-height: 1.65; color: var(--text-light); margin-bottom: $space-4;
+    [data-theme="dark"] & { color: $dark-text-light; }
+  }
+  .a__tags { display: flex; gap: $space-2; flex-wrap: wrap; }
+
+  // body — Skill-compliant: p, h2, em, code, ul, ol, li, table
+  .a__bd { font-size: 1.02rem; line-height: 1.85; color: var(--text);
+    [data-theme="dark"] & { color: $dark-text-light; }
+
+    h2 { font-family: $font-display; font-size: 1.3rem; font-weight: $weight-bold; line-height: 1.35; color: var(--text); margin: 2.2em 0 .4em;
+      [data-theme="dark"] & { color: $dark-text; }
+    }
+    h3 { font-family: $font-display; font-size: 1.1rem; font-weight: $weight-semibold; line-height: 1.35; color: var(--text); margin: 1.8em 0 .3em;
+      [data-theme="dark"] & { color: $dark-text; }
+    }
+    p { margin: 0 0 1.1em; }
+
+    em { color: var(--accent); font-style: italic;
+      [data-theme="dark"] & { color: $dark-accent; }
+    }
+    strong { font-weight: $weight-bold; }
+
+    code { font-family: $font-mono; font-size: .88em; padding: 2px 6px; border-radius: $border-radius;
+      background: rgba($color-primary, .08); color: $color-primary;
+      [data-theme="dark"] & { background: rgba($dark-primary, .1); color: $dark-primary; }
+    }
+
+    pre { margin: 1.5em 0; padding: 1.2em 1.5em; background: #f5f6f8; border-radius: 6px; overflow-x: auto;
+      border: 1px solid rgba($color-primary, .12);
+      [data-theme="dark"] & { background: #1a1d22; border-color: rgba($dark-primary, .15); }
+      code { background: transparent; padding: 0; color: inherit; font-size: .85em; line-height: 1.6;
+        [data-theme="dark"] & { color: $dark-text-light; }
+      }
+    }
+
+    ul, ol { margin: .8em 0 1.1em 1.5em; }
+    li { margin-bottom: .4em; }
+
+    table { width: 100%; border-collapse: collapse; margin: 1.2em 0; font-size: .92em; font-family: inherit; }
+    th, td { padding: 8px 12px; border: 1px solid var(--border-light); text-align: left; vertical-align: top; font-family: inherit;
+      [data-theme="dark"] & { border-color: $dark-border-light; }
+    }
+    th { font-weight: $weight-semibold; font-size: .85em; background: rgba($color-primary, .04);
+      [data-theme="dark"] & { background: rgba($dark-primary, .06); }
+    }
+    td { font-size: .85em; }
+
+    blockquote { border-left: 3px solid var(--accent); margin: 1.2em 0; padding: .4em 1em; background: rgba($color-accent, .03);
+      [data-theme="dark"] & { background: rgba($dark-accent, .03); }
+      p { margin: .4em 0; }
+    }
+
+    hr { border: none; height: 1px; background: var(--border-light); margin: 2em 0;
+      [data-theme="dark"] & { background: $dark-border-light; }
+    }
+
+    .math-block {
+      margin: 1.5em 0;
+      padding: 1em;
+      background: rgba($color-primary, 0.04);
+      border-radius: 6px;
+      text-align: center;
+      overflow-x: auto;
+      [data-theme="dark"] & { background: rgba($dark-primary, 0.06); }
+    }
+  }
+
+  .a__hr { border: none; height: 1px; background: linear-gradient(to right, transparent, var(--border-light), transparent); margin: $space-12 0;
+    [data-theme="dark"] & { background: linear-gradient(to right, transparent, $dark-border-light, transparent); }
+  }
+  .a__fn { }
+  .a__fn-back { display: inline-flex; align-items: center; gap: $space-2; font-family: $font-mono; font-size: .7rem; letter-spacing: .06em;
+    color: var(--primary); text-decoration: none; transition: color .15s;
+    &:hover { color: var(--accent); }
+  }
+</style>

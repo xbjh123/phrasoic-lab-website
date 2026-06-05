@@ -1,0 +1,28 @@
+backend:
+  name: proxy
+  proxy_url: http://localhost:8082/api/v1
+
+local_backend: true
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Excerpt", name: "excerpt", widget: "text" }
+      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Category", name: "cat", widget: "select", options: ["SYSTEMS","THEORY","CULTURE","ENGINEERING","DESIGN"], default: "SYSTEMS" }
+      - { label: "Tags", name: "tags", widget: "list", field: { label: "Tag", name: "tag", widget: "string" } }
+      - { label: "Reading Time", name: "min", widget: "string", default: "5" }
+      - { label: "Date", name: "date", widget: "datetime", format: "YYYY.MM.DD — HH:mm:ss" }
+      - { label: "Cover Image", name: "image", widget: "string", required: false }
+      - { label: "Label EN", name: "label", widget: "string", required: false, default: "LATEST TRANSMISSION" }
+      - { label: "Label ZH", name: "labelZh", widget: "string", required: false, default: "最新传输" }

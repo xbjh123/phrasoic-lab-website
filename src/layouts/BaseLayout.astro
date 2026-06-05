@@ -1,0 +1,63 @@
+---
+import '../styles/global.scss';
+
+export interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+const pageTitle = title || 'PHRASOIC LAB';
+---
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content="Research & Records — 个人知识库 · 设计笔记 · 技术档案" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <meta name="theme-color" content="#F0F2F5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14171C" media="(prefers-color-scheme: dark)" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content="Research & Records — 个人知识库 · 设计笔记 · 技术档案" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/katex.min.css" />
+    <script is:inline src="/katex.min.js"></script>
+    <script is:inline src="/auto-render.min.js"></script>
+  </head>
+  <body>
+    <div class="bg-layers">
+      <div class="bg-layers__blobs"></div>
+      <div class="bg-layers__blob-center"></div>
+    </div>
+
+    <div class="page-content">
+      <slot />
+    </div>
+
+    <script is:inline>
+      window.onload = function() {
+        if (typeof renderMathInElement === 'function') {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false},
+              {left: '\\[', right: '\\]', display: true},
+              {left: '\\(', right: '\\)', display: false}
+            ],
+            throwOnError: false
+          });
+        }
+      };
+    </script>
+  </body>
+</html>

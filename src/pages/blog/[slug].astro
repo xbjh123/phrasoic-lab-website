@@ -1,0 +1,16 @@
+---
+import { POSTS } from '../../data/posts';
+import type { Post } from '../../data/posts';
+import BlogPost from '../../layouts/BlogPost.astro';
+
+export function getStaticPaths() {
+  return POSTS.map((post: Post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<BlogPost post={post} />

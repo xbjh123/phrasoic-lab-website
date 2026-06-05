@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="Search — PHRASOIC LAB">
+  <Nav />
+  <main class="sr">
+    <div class="sr__in content-wrap">
+      <header class="sr__hd">
+        <h1 class="sr__t"><span class="lang-en">Search</span><span class="lang-zh">搜索</span></h1>
+        <div class="sr__bar" id="search"></div>
+      </header>
+      <div class="sr__results" id="results"></div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const script = document.createElement('script');
+    script.src = '/pagefind/pagefind.js';
+    script.onload = () => {
+      const uiScript = document.createElement('script');
+      uiScript.src = '/pagefind/pagefind-ui.js';
+      uiScript.onload = () => {
+        if (window.PagefindUI) {
+          new window.PagefindUI({
+            element: '#search',
+            showSubResults: false,
+            showImages: false,
+            excerptLength: 30,
+          });
+          const obs = new MutationObserver(() => {
+            const r = document.querySelector('.pagefind-ui__results');
+            if (r) document.getElementById('results')?.appendChild(r);
+          });
+          obs.observe(document.getElementById('search'), { childList: true, subtree: true });
+        }
+      };
+      document.head.appendChild(uiScript);
+    };
+    document.head.appendChild(script);
+  });
+</script>
+
+<style lang="scss" is:global>
+  @use '../styles/tokens' as *;
+
+  .sr { padding-top:calc(#{$nav-height} + #{$space-10}); padding-bottom:$space-24; min-height:100vh; }
+  .sr__in { max-width:640px; }
+  .sr__hd { margin-bottom:$space-10; }
+  .sr__t { font-family:$font-display; font-size:clamp(2rem,5vw,3rem); font-weight:$weight-black; line-height:1.1; letter-spacing:-.02em; color:var(--text); margin-bottom:$space-6;
+    [data-theme="dark"] & { color:$dark-text; }
+  }
+
+  // Pagefind overrides
+  .pagefind-ui {
+    --pagefind-ui-primary: var(--primary);
+    --pagefind-ui-text: var(--text);
+    --pagefind-ui-background: var(--surface);
+    --pagefind-ui-border: var(--border-light);
+    --pagefind-ui-border-radius: 2px;
+    --pagefind-ui-font: var(--font-ui);
+    font-family: var(--font-ui);
+    max-width:100%;
+  }
+  .pagefind-ui__search-input {
+    padding:10px 14px; font-size:.95rem; background:var(--card); border:1px solid var(--border-light); border-radius:2px; color:var(--text);
+    [data-theme="dark"] & { background:$dark-card; border-color:$dark-border; color:$dark-text; }
+  }
+  .pagefind-ui__result-title { font-family:var(--font-display); font-weight:600; }
+  .pagefind-ui__result-excerpt { font-size:.85rem; color:var(--text-light); }
+  .pagefind-ui__result-link { color:var(--primary); }
+  .pagefind-ui__button { font-family:var(--font-ui); }
+</style>

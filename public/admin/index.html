@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phrasoic Lab — Editor</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:14px/1.5 -apple-system,sans-serif;background:#1a1d22;color:#e0e0e0;display:flex;height:100vh}
+.sidebar{width:260px;background:#22272e;padding:16px;overflow-y:auto;border-right:1px solid #333;display:flex;flex-direction:column}
+.sidebar h2{font-size:13px;color:#777;margin-bottom:12px;text-transform:uppercase;letter-spacing:.1em}
+.sidebar .item{padding:8px 12px;margin:2px 0;border-radius:4px;cursor:pointer;font-size:13px;color:#b0b8c4}
+.sidebar .item:hover{background:#2a3038}.sidebar .item.active{background:#3a424d;color:#fff}
+.sidebar button{width:100%;padding:10px;margin-top:8px;background:#4a6785;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600}
+.sidebar button:hover{background:#5a7895}.sidebar button.build{background:#855a4a}.sidebar button.build:hover{background:#956060}
+.status{padding:8px 12px;margin-top:8px;border-radius:4px;font-size:12px;display:none;background:#2a4;color:#fff}
+.main{flex:1;display:flex;flex-direction:column}
+.toolbar{padding:10px 16px;background:#22272e;border-bottom:1px solid #333;display:flex;gap:8px;align-items:center}
+.toolbar input{padding:8px 12px;background:#333;border:1px solid #444;color:#fff;border-radius:4px;font-size:13px}
+.toolbar input[name=slug]{flex:.5;font-family:monospace}
+.toolbar button{padding:8px 16px;background:#4a6785;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600}
+.toolbar button:hover{background:#5a7895}
+.editor{flex:1;display:flex}.editor textarea{flex:1;padding:20px;background:#1a1d22;color:#d0d0d0;border:none;font:14px/1.8 'JetBrains Mono',monospace;resize:none;outline:none}
+.editor .preview{flex:1;padding:20px;overflow-y:auto;background:#1e2127;border-left:1px solid #333;font:15px/1.8 Georgia,serif;color:#ccc}
+.preview h1,.preview h2,.preview h3{color:#fff;margin:.5em 0}.preview code{background:#333;padding:2px 6px;border-radius:3px;font:.9em monospace}
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <h2>Articles</h2>
+  <div id="list" style="flex:1;overflow-y:auto"></div>
+  <button onclick="newDoc()">+ New Post</button>
+  <button class="build" onclick="rebuild()">Sync & Build</button>
+  <div class="status" id="status"></div>
+</div>
+<div class="main">
+  <div class="toolbar">
+    <input name="slug" placeholder="slug" readonly>
+    <button onclick="save()">Save</button>
+  </div>
+  <div class="editor">
+    <textarea id="src" placeholder="Write markdown..." oninput="preview()"></textarea>
+    <div class="preview" id="pv"></div>
+  </div>
+</div>
+<script>
+const API = 'http://localhost:3001/api';
+let current = '';
+
+async function api(method, path, body) {
+  const opts = { method, headers: body != null ? { 'Content-Type': 'text/plain' } : {} };
+  if (body != null) opts.body = body;
+  const r = await fetch(API + path, opts);
+  if (path.endsWith('.json')) return r.json();
+  return r.text();
+}
+
+async function loadList() {
+  const posts = await api('GET','/posts.json');
+  const el = document.getElementById('list');
+  el.innerHTML = posts.map(p => 
+    `<div class="item${p.slug===current?' active':''}" onclick="openDoc('${p.slug}')">${p.title}</div>`
+  ).join('');
+}
+
+async function openDoc(slug) {
+  current = slug;
+  const md = await api('GET', `/posts/${slug}.md`);
+  document.getElementById('src').value = md;
+  document.querySelector('[name=slug]').value = slug;
+  preview();
+  loadList();
+}
+
+async function save() {
+  const md = document.getElementById('src').value;
+  await api('PUT', `/posts/${current}.md`, md);
+  msg('Saved');
+}
+
+async function newDoc() {
+  const title = prompt('Title:');
+  if (!title) return;
+  const slug = title.toLowerCase().replace(/[^\w\s-]/g,'').replace(/[\s]+/g,'-');
+  const ts = new Date().toISOString().slice(0,10).replace(/-/g,'.');
+  const md = `---\ntitle: "${title}"\ncat: SYSTEMS\ntags: []\nmin: "5"\ndate: "${ts}"\n---\n\n# ${title}\n\n`;
+  await api('PUT', `/posts/${slug}.md`, md);
+  msg('Created');
+  loadList();
+  openDoc(slug);
+}
+
+async function rebuild() {
+  msg('Building...');
+  try {
+    const r = await fetch(API + '/build', { method: 'POST' });
+    const d = await r.json();
+    msg(d.ok ? 'Done! Refresh site.' : 'Failed: ' + d.error);
+  } catch(e) { msg('API server not running'); }
+}
+
+function preview() {
+  const md = document.getElementById('src').value;
+  document.getElementById('pv').innerHTML = md
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/^### (.+)/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)/gm,'<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\n\n/g,'</p><p>')
+    .replace(/\n/g,'<br>');
+}
+
+function msg(t) {
+  const el = document.getElementById('status');
+  el.textContent = t; el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 3000);
+}
+
+loadList().then(() => { if (!current) { const items = document.querySelectorAll('#list .item'); if (items.length) items[0].click(); } });
+</script>
+</body>
+</html>

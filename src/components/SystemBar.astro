@@ -1,0 +1,157 @@
+---
+// ============================================================
+// PHRASOIC LAB · SystemBar
+// ============================================================
+export interface Props {
+  entries: Array<{ label: string; value: string; clearance?: string }>;
+  status?: string;
+  statusLabel?: string;
+}
+const { entries, status = "ONLINE", statusLabel = "SYSTEM" } = Astro.props;
+---
+
+<div class="sysbar corner-marks">
+  <div class="sysbar__header">
+    <div class="sysbar__header-left">
+      <span class="sysbar__dot sysbar__dot--live"></span>
+      <span class="label-text sysbar__label">[{statusLabel}]</span>
+    </div>
+    <span class="meta-text sysbar__status">{status}</span>
+  </div>
+
+  <div class="sysbar__body">
+    {entries.map(({ label, value, clearance }) => (
+      <div class="sysbar__row">
+        <span class="label-text sysbar__key">{label}</span>
+        <span
+          class="meta-text sysbar__val"
+          class:list={{ [`sysbar__val--${clearance?.toLowerCase()}`]: clearance }}
+        >
+          {value}
+        </span>
+      </div>
+    ))}
+  </div>
+
+  <div class="sysbar__footer">
+    <span class="sysbar__dot sysbar__dot--green"></span>
+    <span class="tech-stamp">ACCESS_GRANTED — PUBLIC</span>
+  </div>
+</div>
+
+<style lang="scss" is:global>
+  @use '../styles/tokens' as *;
+
+  .sysbar {
+    border-radius: $border-radius;
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+    font-family: $font-mono;
+
+    [data-theme="dark"] & {
+      border-color: $dark-border;
+    }
+  }
+
+  .sysbar__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-2 $space-4;
+    background: rgba($color-primary, 0.06);
+    border-bottom: 1px solid var(--border-light);
+
+    [data-theme="dark"] & {
+      background: rgba($dark-bg, 0.6);
+      border-color: $dark-border;
+    }
+  }
+
+  .sysbar__header-left {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+  }
+
+  .sysbar__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    &--live {
+      background: $color-primary;
+      box-shadow: 0 0 6px rgba($color-primary, 0.4);
+
+      [data-theme="dark"] & {
+        background: $dark-primary;
+        box-shadow: 0 0 6px rgba($dark-primary, 0.3);
+      }
+    }
+
+    &--green {
+      background: #5a9e6f;
+    }
+  }
+
+  .sysbar__label {
+    font-size: 0.65rem;
+    color: var(--primary);
+  }
+
+  .sysbar__status {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sysbar__body {
+    padding: $space-3 $space-4;
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+  }
+
+  .sysbar__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sysbar__key {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+
+  .sysbar__val {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    font-variant-numeric: tabular-nums;
+
+    &--public     { color: $clr-public; }
+    &--internal   { color: $clr-internal; }
+    &--classified { color: $clr-classified; }
+    &--restricted { color: $clr-restricted; }
+  }
+
+  .sysbar__footer {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-2 $space-4;
+    background: rgba($color-primary, 0.04);
+    border-top: 1px solid var(--border-light);
+
+    [data-theme="dark"] & {
+      background: rgba($dark-bg, 0.4);
+      border-color: $dark-border;
+    }
+  }
+
+  .sysbar__access {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+</style>

@@ -1,0 +1,100 @@
+// ============================================================
+// PHRASOIC LAB · Design Tokens
+// ============================================================
+
+// ── Colors: Light ────────────────────────────────────────────
+$color-primary: #7B93A0;
+$color-primary-light: #A8BCC6;
+$color-primary-dark: #5A707D;
+
+$color-bg: #F0F2F5;
+$color-surface: #F7F8FA;
+$color-card: #FFFFFF;
+
+$color-accent: #C27A5E;
+$color-accent-light: #D4896E;
+$color-gold: #E6C25B;
+
+$color-text: #2A2A2A;
+$color-text-light: #555555;
+$color-text-muted: #999999;
+
+$color-border: #CCCCCC;
+$color-border-light: #E0E0E0;
+$color-near-black: #0A0A0A;
+
+// ── Colors: Dark ─────────────────────────────────────────────
+$dark-bg: #14171C;
+$dark-card: #1C2026;
+$dark-surface: #22272E;
+$dark-text: #E8ECF1;
+$dark-text-light: #B0B8C4;
+$dark-text-muted: #6B7280;
+$dark-primary: #A8BCC6;
+$dark-accent: #D4896E;
+$dark-border: #2A3038;
+$dark-border-light: #333B45;
+
+// ── Clearance Tags ──────────────────────────────────────────
+$clr-public: #7B93A0;
+$clr-internal: #5A707D;
+$clr-classified: #C27A5E;
+$clr-restricted: #B04040;
+
+// ── Typography ───────────────────────────────────────────────
+$font-display: 'AvantGardeGothic', 'Noto Sans SC', sans-serif;
+$font-body: 'Noto Sans SC', 'AvantGardeGothic', sans-serif;
+$font-ui: 'Noto Sans SC', 'AvantGardeGothic', -apple-system, sans-serif;
+$font-mono: 'JetBrains Mono', 'Fira Code', 'Noto Sans SC', monospace;
+
+$text-hero: clamp(2.5rem, 6vw, 5rem);
+$text-h1: 2rem;
+$text-h2: 1.5rem;
+$text-h3: 1.15rem;
+$text-body: 1.125rem;
+$text-ui: 0.95rem;
+$text-small: 0.8rem;
+$text-code: 0.875rem;
+$text-tag: 0.75rem;
+
+$weight-black: 900;
+$weight-bold: 700;
+$weight-semibold: 600;
+$weight-medium: 500;
+$weight-regular: 400;
+
+$leading-body: 1.75;
+$leading-heading: 1.3;
+$leading-code: 1.6;
+
+// ── Spacing (4px grid) ──────────────────────────────────────
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+$space-6: 24px;
+$space-8: 32px;
+$space-10: 40px;
+$space-12: 48px;
+$space-16: 64px;
+$space-24: 96px;
+
+// ── Layout ───────────────────────────────────────────────────
+$content-max: 1200px;
+$nav-height: 56px;
+$border-radius: 2px;
+
+// ── Breakpoints ──────────────────────────────────────────────
+$bp-mobile: 640px;
+$bp-tablet: 1024px;
+$bp-desktop: 1280px;
+
+// ── Shadows ──────────────────────────────────────────────────
+$shadow-card: 0 1px 4px rgba(0, 0, 0, 0.04);
+$shadow-card-hover: 0 4px 16px rgba(123, 147, 160, 0.1);
+$shadow-float: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+$dark-shadow-card: 0 1px 4px rgba(0, 0, 0, 0.2);
+$dark-shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.35);
+$dark-shadow-float: 0 8px 32px rgba(0, 0, 0, 0.4);

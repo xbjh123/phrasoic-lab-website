@@ -1,0 +1,89 @@
+---
+// ============================================================
+// PHRASOIC LAB · Footer
+// ============================================================
+---
+
+<footer class="footer">
+  <div class="footer__inner content-wrap">
+    <div class="footer__brand">
+      <span class="label-text" style="opacity: 0.3;">[</span>
+      <span class="label-text footer__brand-name">PHRASOIC LAB</span>
+      <span class="label-text" style="opacity: 0.3;">]</span>
+    </div>
+    <p class="meta-text footer__copy">
+      <span class="lang-en">&copy; 2024 — TRANSMITTED OVER ENCRYPTED CHANNELS</span>
+      <span class="lang-zh">&copy; 2024 — 加密信道传输</span>
+    </p>
+    <div class="footer__links">
+      {["RSS", "ARCHIVE", "CONTACT"].map((l) => (
+        <a href={`/${l.toLowerCase()}`} class="label-text footer__link">{l}</a>
+      ))}
+    </div>
+  </div>
+</footer>
+
+<style lang="scss" is:global>
+  @use '../styles/tokens' as *;
+
+  .footer {
+    border-top: 1px solid var(--border-light);
+    padding: $space-8 0;
+
+    [data-theme="dark"] & {
+      border-color: $dark-border;
+    }
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $space-4;
+    text-align: center;
+
+    @media (min-width: $bp-mobile) {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+
+  .footer__brand {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: var(--primary);
+    font-size: 0.7rem;
+  }
+
+  .footer__brand-name {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    opacity: 0.4;
+    font-weight: $weight-semibold;
+  }
+
+  .footer__copy {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  .footer__links {
+    display: flex;
+    align-items: center;
+    gap: $space-6;
+  }
+
+  .footer__link {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+</style>

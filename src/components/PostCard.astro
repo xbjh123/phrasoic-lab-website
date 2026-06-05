@@ -1,0 +1,218 @@
+---
+// ============================================================
+// PHRASOIC LAB · PostCard
+// ============================================================
+export interface Props {
+  docId: string;
+  cat: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  min: string;
+  tags: string[];
+  slug: string;
+}
+const { docId, cat, title, excerpt, date, min, tags, slug } = Astro.props;
+---
+
+<article class="postcard corner-marks" id={slug}>
+  <div class="postcard__accent-line"></div>
+
+  <div class="postcard__inner">
+    <!-- Meta column -->
+    <div class="postcard__meta">
+      <span class="archive-tag">{cat}</span>
+      <span class="meta-text postcard__doc-id">{docId}</span>
+      <span class="meta-text postcard__date" style="display: none;">{date}</span>
+    </div>
+
+    <!-- Content -->
+    <div class="postcard__content">
+      <a href={`/blog/${slug}`} class="postcard__title-link">
+        <h3 class="h3 postcard__title">{title}</h3>
+      </a>
+      <p class="postcard__excerpt">{excerpt}</p>
+    </div>
+
+    <!-- Meta right -->
+    <div class="postcard__right">
+      <div class="postcard__tags">
+        {tags.map((t) => (
+          <span class="archive-tag" data-prefix="#">{t}</span>
+        ))}
+      </div>
+      <span class="meta-text postcard__readtime">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        {min} MIN
+      </span>
+      <span class="postcard__arrow" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <!-- Status watermark -->
+  <div class="postcard__watermark">
+    <span class="postcard__watermark-dot"></span>
+    <span class="tech-stamp">DECLASSIFIED</span>
+  </div>
+</article>
+
+<style lang="scss" is:global>
+  @use '../styles/tokens' as *;
+  @use '../styles/glass';
+
+  .postcard {
+    position: relative;
+    @include glass.glass-l2;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .postcard__accent-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--primary), transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .postcard:hover .postcard__accent-line {
+    opacity: 1;
+  }
+
+  .postcard__inner {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+    padding: $space-5;
+
+    @media (min-width: $bp-mobile) {
+      flex-direction: row;
+      align-items: center;
+      gap: $space-4;
+    }
+  }
+
+  // ── Meta column ──
+  .postcard__meta {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    flex-shrink: 0;
+
+    @media (min-width: $bp-mobile) {
+      width: 140px;
+    }
+  }
+
+  .postcard__doc-id {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+
+  .postcard__date {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+
+  // ── Content ──
+  .postcard__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .postcard__title-link {
+    text-decoration: none;
+  }
+
+  .postcard__title {
+    font-size: 1rem;
+    line-height: 1.3;
+    color: var(--text);
+    transition: color 0.15s ease;
+
+    .postcard:hover & {
+      color: var(--accent);
+    }
+  }
+
+  .postcard__excerpt {
+    margin-top: 4px;
+    font-size: 0.82rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  // ── Right meta ──
+  .postcard__right {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  .postcard__tags {
+    display: none;
+
+    @media (min-width: $bp-tablet) {
+      display: flex;
+      gap: $space-2;
+    }
+  }
+
+  .postcard__readtime {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+  }
+
+  .postcard__arrow {
+    color: var(--primary);
+    opacity: 0.35;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+
+    .postcard:hover & {
+      opacity: 0.9;
+      transform: translateX(2px);
+    }
+  }
+
+  // ── Watermark ──
+  .postcard__watermark {
+    position: absolute;
+    bottom: 8px;
+    right: $space-4;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.06;
+    pointer-events: none;
+
+    [data-theme="dark"] & {
+      opacity: 0.04;
+    }
+  }
+
+  .postcard__watermark-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #5a9e6f;
+  }
+</style>

@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import PostCard from '../components/PostCard.astro';
+import Footer from '../components/Footer.astro';
+import { POSTS } from '../data/posts';
+---
+
+<BaseLayout>
+  <Nav />
+
+  <Hero posts={POSTS} />
+
+  <!-- Entries Section -->
+  {POSTS.length > 1 && (
+  <section class="entries" id="entries">
+    <div class="content-wrap">
+      <div class="entries__header">
+        <span class="entries__header-label meta-text">
+          <span class="entries__header-diamond" aria-hidden="true">&#9670;</span>
+          <span class="lang-en">RECENT ENTRIES</span>
+          <span class="lang-zh">最近条目</span>
+        </span>
+        <div class="entries__header-line"></div>
+        <span class="meta-text entries__header-count">{POSTS.slice(1).length} ENTRIES</span>
+      </div>
+      <div class="entries__list">
+        {POSTS.slice(1).map((post) => (
+          <PostCard
+            docId={post.docId}
+            cat={post.cat}
+            title={post.title}
+            excerpt={post.excerpt}
+            date={post.date}
+            min={post.min}
+            tags={post.tags}
+            slug={post.slug}
+          />
+        ))}
+      </div>
+
+      <!-- More button -->
+      <div class="entries__more">
+        <a href="/archive" class="entries__more-btn label-text">
+          <span class="lang-en">VIEW ALL ENTRIES →</span>
+          <span class="lang-zh">查看全部条目 →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  )}
+  <Footer />
+</BaseLayout>
+
+<style lang="scss" is:global>
+  @use '../styles/tokens' as *;
+  @use '../styles/glass';
+
+  .entries {
+    position: relative;
+    padding-top: $space-6;
+    padding-bottom: $space-24;
+    z-index: 1;
+  }
+
+  // ── Section Header ──
+  .entries__header {
+    display: flex;
+    align-items: center;
+    gap: $space-4;
+    margin-bottom: $space-8;
+  }
+
+  .entries__header-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    color: var(--primary);
+    white-space: nowrap;
+  }
+
+  .entries__header-diamond {
+    margin-right: 2px;
+  }
+
+  .entries__header-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba($color-primary, 0.25), transparent);
+
+    [data-theme="dark"] & {
+      background: linear-gradient(to right, rgba($dark-primary, 0.18), transparent);
+    }
+  }
+
+  .entries__header-count {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+    white-space: nowrap;
+  }
+
+  // ── List ──
+  .entries__list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  // ── More button ──
+  .entries__more {
+    margin-top: $space-8;
+    display: flex;
+    justify-content: center;
+  }
+
+  .entries__more-btn {
+    display: inline-block;
+    padding: 10px 28px;
+    border-radius: $border-radius;
+    border: 1px solid rgba($color-primary, 0.2);
+    color: var(--primary);
+    font-size: 0.7rem;
+    text-decoration: none;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: rgba($color-primary, 0.08);
+      border-color: rgba($color-primary, 0.4);
+    }
+
+    [data-theme="dark"] & {
+      border-color: rgba($dark-primary, 0.18);
+      color: $dark-primary;
+
+      &:hover {
+        background: rgba($dark-primary, 0.06);
+        border-color: rgba($dark-primary, 0.35);
+      }
+    }
+  }
+</style>

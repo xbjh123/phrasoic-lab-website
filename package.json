@@ -1,0 +1,26 @@
+{
+  "name": "mnt-c-users-desktop-phrasoic-lab",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "postbuild": "npx pagefind --site dist",
+    "sync": "python3 scripts/sync.py",
+    "api": "node scripts/api-server.js",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@shikijs/engine-oniguruma": "^4.2.0",
+    "astro": "^6.4.4",
+    "decap-cms-app": "^3.13.0",
+    "decap-server": "^3.8.0",
+    "katex": "^0.17.0",
+    "pagefind": "^1.5.2",
+    "sass": "^1.100.0"
+  }
+}

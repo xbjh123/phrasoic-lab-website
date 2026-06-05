@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/posts';
+---
+
+<BaseLayout title={`About — ${SITE.name}`}>
+  <Nav />
+  <main class="ab">
+    <div class="ab__in content-wrap">
+      <header class="ab__hd">
+        <h1 class="ab__t"><span class="lang-en">About</span><span class="lang-zh">关于</span></h1>
+      </header>
+      <div class="ab__bd">
+        <p class="lang-en">
+          Phrasoic Lab is a personal knowledge repository — a quiet corner of the internet
+          for documenting technical explorations, design notes, and distributed systems theory.
+        </p>
+        <p class="lang-zh">
+          Phrasoic Lab 是一个个人知识库——互联网上的一个安静角落，用于记录技术探索、
+          设计笔记和分布式系统理论。
+        </p>
+        <div class="ab__links">
+          <a href="/archive" class="ab__link">
+            <span class="lang-en">→ Browse all entries</span>
+            <span class="lang-zh">→ 浏览全部条目</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style lang="scss" is:global>
+  @use '../styles/tokens' as *;
+
+  .ab { padding-top:calc(#{$nav-height} + #{$space-10}); padding-bottom:$space-24; min-height:100vh; }
+  .ab__in { max-width:640px; }
+  .ab__hd { margin-bottom:$space-10; }
+  .ab__t { font-family:$font-display; font-size:clamp(2rem,5vw,3.5rem); font-weight:$weight-black; line-height:1.1; letter-spacing:-.02em; color:var(--text);
+    [data-theme="dark"] & { color:$dark-text; }
+  }
+  .ab__bd { font-size:1.05rem; line-height:1.85; color:var(--text-light);
+    [data-theme="dark"] & { color:$dark-text-light; }
+    p { margin-bottom:1.2em; }
+  }
+  .ab__links { margin-top:$space-8; }
+  .ab__link { display:inline-block; color:var(--primary); text-decoration:none; font-family:$font-mono; font-size:.8rem; transition:color .15s;
+    &:hover { color:var(--accent); }
+  }
+</style>
