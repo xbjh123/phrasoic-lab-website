@@ -2,7 +2,8 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://phrasoiclab.com',
+  site: 'https://xbjh123.github.io',
+  base: '/phrasoic-lab-website',
   output: 'static',
 });
 
