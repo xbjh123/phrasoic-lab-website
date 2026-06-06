@@ -1743,5 +1743,5 @@ export const SITE = {
   description: "个人知识库 · 设计笔记 · 技术档案",
   entries: POSTS.length,
   since: "2026.06",
-  words: "~33K",
+  words: `~${Math.round(POSTS.reduce((s, p) => s + p.body.replace(/<[^>]*>/g, '').split(/\s+/).length, 0) / 1000)}K`,
 };
