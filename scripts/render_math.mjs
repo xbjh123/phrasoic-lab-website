@@ -4,19 +4,18 @@ import { readFileSync, writeFileSync } from 'fs';
 const file = process.argv[2];
 let content = readFileSync(file, 'utf-8');
 
-// Block math: $$...$$
+// Block math: $$...$$  (with optional newlines around the content)
 content = content.replace(/\$\$\n?([\s\S]*?)\n?\$\$/g, (m, tex) => {
   try {
-    // Clean LaTeX: normalize whitespace and line breaks
     const clean = tex.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
-    return katex.renderToString(clean, { displayMode: true, throwOnError: false, trust: true });
+    return katex.renderToString(clean, { displayMode: true, throwOnError: false, trust: true, strict: false });
   } catch (e) { return m; }
 });
 
 // Inline math: $...$
 content = content.replace(/(?<!\$)\$(?!\$)([^$\n]+?)\$(?!\$)/g, (m, tex) => {
   try {
-    return katex.renderToString(tex.trim(), { displayMode: false, throwOnError: false, trust: true });
+    return katex.renderToString(tex.trim(), { displayMode: false, throwOnError: false, trust: true, strict: false });
   } catch (e) { return m; }
 });
 
