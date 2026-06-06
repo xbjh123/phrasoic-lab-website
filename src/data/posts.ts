@@ -1162,7 +1162,7 @@ Recall    = TP / (TP + FN)   ← 分母是"真实为正类"的总数
 <li>[[ML基础框架]] — 数据划分与过拟合</li>
 <li>➡️ 下一节：[[支持向量机 SVM]]（待学习）</li>
 </ul>`,
-    date: "2026.06.06 — 17:23:04",
+    date: "2026.06.06 — 17:38:57",
     min: "5",
     tags: ["[MachineLearning, \u6a21\u578b\u8bc4\u4f30, \u6df7\u6dc6\u77e9\u9635, ROC, AUC, \u4ea4\u53c9\u9a8c\u8bc1, sklearn, Phase-4]"],
     slug: "model-evaluation",
