@@ -41,19 +41,17 @@ const pageTitle = title || 'PHRASOIC LAB';
     </div>
 
     <script is:inline>
-      window.onload = function() {
+      window.addEventListener('load', function() {
         if (typeof renderMathInElement === 'function') {
           renderMathInElement(document.body, {
             delimiters: [
               {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false},
-              {left: '\\[', right: '\\]', display: true},
-              {left: '\\(', right: '\\)', display: false}
+              {left: '$', right: '$', display: false}
             ],
             throwOnError: false
           });
         }
-      };
+      });
     </script>
   </body>
 </html>
