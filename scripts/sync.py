@@ -125,7 +125,7 @@ def md_to_html(md_text):
         if s == '$$' or s.startswith('$$'):
             _cl(); _ct()
             if s.count('$$') >= 2 and s.endswith('$$') and len(s) > 4:
-                parts.append('<div class="math-block">' + s + '</div>')
+                parts.append(s)
                 i += 1; continue
             math_lines = [s]
             i += 1
@@ -135,7 +135,7 @@ def md_to_html(md_text):
                 if ml.endswith('$$') or ml == '$$':
                     i += 1; break
                 i += 1
-            parts.append('<div class="math-block">' + '\n'.join(math_lines) + '</div>')
+            parts.append('\n'.join(math_lines))
             continue
         if s.startswith('### '): _cl(); _ct(); parts.append('<h3>'+_inline(s[4:])+'</h3>'); i += 1; continue
         if s.startswith('## '): _cl(); _ct(); parts.append('<h2>'+_inline(s[3:])+'</h2>'); i += 1; continue

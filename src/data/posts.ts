@@ -42,17 +42,17 @@ export const POSTS: Post[] = [
 </ul>
 <h2>2. 分类评估指标</h2>
 <h3>2.1 准确率（Accuracy）</h3>
-<div class="math-block">$$
+$$
 \\text{Accuracy} = \\frac{TP + TN}{TP + TN + FP + FN}
-$$</div>
+$$
 <p>准确率是最直观的指标，但在类别不平衡时会产生误导。例如，在 99:1 的数据集中，即使模型全部预测多数类，准确率也能达到 99%。</p>
 <h3>2.2 精确率（Precision）</h3>
-<div class="math-block">$$
+$$
 \\text{Precision} = \\frac{TP}{TP + FP}
-$$</div>
-<div class="math-block">$$
+$$
+$$
 \\text{Precision} = \\frac{\\text{预测正确的正类数}}{\\text{模型认为的正类总数}}
-$$</div>
+$$
 <p>精确率衡量的是：<strong>模型预测为正类的样本中，有多少是真正的正类？</strong></p>
 <p><strong>应用场景：</strong></p>
 <ul>
@@ -60,12 +60,12 @@ $$</div>
 <li>医疗诊断：误诊的代价很高</li>
 </ul>
 <h3>2.3 召回率（Recall / Sensitivity）</h3>
-<div class="math-block">$$
+$$
 \\text{Recall} = \\frac{TP}{TP + FN}
-$$</div>
-<div class="math-block">$$
+$$
+$$
 \\text{Recall} = \\frac{\\text{预测正确的正类数}}{\\text{实际的正类总数}}
-$$</div>
+$$
 <p>召回率衡量的是：<strong>所有真正的正类样本中，模型找出了多少？</strong></p>
 <p><strong>应用场景：</strong></p>
 <ul>
@@ -74,9 +74,9 @@ $$</div>
 </ul>
 <h3>2.4 F1 分数（F1-Score）</h3>
 <p>F1 是精确率和召回率的调和平均数：</p>
-<div class="math-block">$$
+$$
 F1 = 2 \\times \\frac{\\text{Precision} \\times \\text{Recall}}{\\text{Precision} + \\text{Recall}}
-$$</div>
+$$
 <p>F1 分数在精确率和召回率之间取得平衡，适用于需要同时关注两者的场景。</p>
 <h3>2.5 Precision-Recall 权衡</h3>
 <p>精确率和召回率通常是此消彼长的关系：</p>
@@ -99,9 +99,9 @@ $$</div>
 <li>曲线下面积越大，模型性能越好</li>
 </ul>
 <h3>3.2 AUC（Area Under Curve）</h3>
-<div class="math-block">$$
+$$
 \\text{AUC} = \\int_{0}^{1} \\text{TPR}(\\text{FPR}) \\, d(\\text{FPR})
-$$</div>
+$$
 <p>AUC 的直观解释：<strong>随机选取一个正样本和一个负样本，模型给正样本打分高于负样本的概率。</strong></p>
 <p><strong>AUC 值的含义：</strong></p>
 <ul>
@@ -113,24 +113,24 @@ $$</div>
 </ul>
 <h2>4. 回归评估指标</h2>
 <h3>4.1 均方误差（MSE）</h3>
-<div class="math-block">$$
+$$
 \\text{MSE} = \\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2
-$$</div>
+$$
 <p>MSE 对大误差惩罚更重，但对异常值敏感。</p>
 <h3>4.2 均方根误差（RMSE）</h3>
-<div class="math-block">$$
+$$
 \\text{RMSE} = \\sqrt{\\text{MSE}} = \\sqrt{\\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2}
-$$</div>
+$$
 <p>RMSE 与原始数据单位一致，更易解释。</p>
 <h3>4.3 平均绝对误差（MAE）</h3>
-<div class="math-block">$$
+$$
 \\text{MAE} = \\frac{1}{n} \\sum_{i=1}^{n} |y_i - \\hat{y}_i|
-$$</div>
+$$
 <p>MAE 对异常值更鲁棒，但梯度不连续。</p>
 <h3>4.4 R² 决定系数</h3>
-<div class="math-block">$$
+$$
 R^2 = 1 - \\frac{\\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2}{\\sum_{i=1}^{n} (y_i - \\bar{y})^2}
-$$</div>
+$$
 <p>R² 表示模型解释的方差比例：</p>
 <ul>
 <li>R² = 1.0：完美预测</li>
@@ -147,9 +147,9 @@ $$</div>
 <li>每次用 K-1 份训练，1 份验证</li>
 <li>重复 K 次，取平均性能</li>
 </ol>
-<div class="math-block">$$
+$$
 \\text{CV Score} = \\frac{1}{K} \\sum_{k=1}^{K} \\text{Score}_k
-$$</div>
+$$
 <p><strong>常用 K 值：</strong></p>
 <ul>
 <li>K = 5：平衡计算成本和评估稳定性</li>
