@@ -51,13 +51,19 @@ function cardHTML(p: Post, id: string, front: boolean) {
         <a href="#entries" class="h__b">READ ENTRIES <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         <div class="h__st"><SystemBar entries={[{label:"ENTRIES_TOTAL",value:String(SITE.entries)},{label:"ACTIVE_SINCE",value:SITE.since},{label:"WORDS_WRITTEN",value:SITE.words},{label:"STATUS",value:"TRANSMITTING"}]} status="ONLINE" statusLabel="OPERATOR" /></div>
       </div>
-      <div class="h__r">
-        <div class="st" id="st" data-pool={JSON.stringify(POSTS.slice(0,3).map(p => ({cat:p.cat, date:p.date, slug:p.slug||p.slug, title:p.title, excerpt:p.excerpt, min:p.min, tags:p.tags, label:p.label||'LATEST TRANSMISSION', labelZh:p.labelZh||'最新传输', img:p.image||''})))}>
-          {POSTS.slice(0, 3).map((p, i) => (
-            <Fragment set:html={cardHTML(p, ['a','b','c'][i], i === 0)} />
-          ))}
+        <div class="h__r">
+          {POSTS.length === 1 ? (
+            <div class="st st--single" id="st" data-pool={JSON.stringify(POSTS.slice(0,1).map(p => ({cat:p.cat, date:p.date, slug:p.slug||p.slug, title:p.title, excerpt:p.excerpt, min:p.min, tags:p.tags, label:p.label||'LATEST TRANSMISSION', labelZh:p.labelZh||'最新传输', img:p.image||''})))}>
+              <Fragment set:html={cardHTML(POSTS[0], 'a', true)} />
+            </div>
+          ) : (
+            <div class="st" id="st" data-pool={JSON.stringify(POSTS.slice(0,3).map(p => ({cat:p.cat, date:p.date, slug:p.slug||p.slug, title:p.title, excerpt:p.excerpt, min:p.min, tags:p.tags, label:p.label||'LATEST TRANSMISSION', labelZh:p.labelZh||'最新传输', img:p.image||''})))}>
+              <Fragment set:html={cardHTML(POSTS[0], 'a', true)} />
+              {POSTS.length > 1 && <Fragment set:html={cardHTML(POSTS[1], 'b', false)} />}
+              {POSTS.length > 2 && <Fragment set:html={cardHTML(POSTS[2], 'c', false)} />}
+            </div>
+          )}
         </div>
-      </div>
     </div>
   </div>
   <div class="h__fd"></div>

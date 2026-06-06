@@ -38,7 +38,7 @@ const { docId, cat, title, excerpt, date, min, tags, slug } = Astro.props;
     <div class="postcard__right">
       <div class="postcard__tags">
         {tags.map((t) => (
-          <span class="archive-tag" data-prefix="#">{t}</span>
+          <a href={`/tags/${t}`} class="archive-tag" data-prefix="#">{t}</a>
         ))}
       </div>
       <span class="meta-text postcard__readtime">

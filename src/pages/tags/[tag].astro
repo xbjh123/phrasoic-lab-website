@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import PostCard from '../../components/PostCard.astro';
+import Footer from '../../components/Footer.astro';
+import { POSTS } from '../../data/posts';
+
+export function getStaticPaths() {
+  const tags = [...new Set(POSTS.flatMap(p => p.tags))];
+  return tags.map(tag => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const posts = POSTS.filter(p => p.tags.includes(tag));
+---
+
+<BaseLayout title={`${tag} — PHRASOIC LAB`}>
+  <Nav />
+  <main class="tg">
+    <div class="tg__in content-wrap">
+      <header class="tg__hd">
+        <a href="/archive" class="tg__back">← <span class="lang-en">Archive</span><span class="lang-zh">归档</span></a>
+        <h1 class="tg__t"># {tag}</h1>
+        <p class="tg__d">{posts.length} <span class="lang-en">entries</span><span class="lang-zh">篇文章</span></p>
+      </header>
+      <div class="tg__list">
+        {posts.map((post) => (
+          <PostCard
+            docId={post.data.cat.toUpperCase() + '-' + String(post.data.date).slice(0,4)}
+            cat={post.data.cat}
+            title={post.data.title}
+            excerpt={post.data.excerpt}
+            date={post.data.date}
+            min={post.data.min}
+            tags={post.data.tags}
+            slug={post.slug || post.id}
+          />
+        ))}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style lang="scss" is:global>
+  @use '../styles/tokens' as *;
+
+  .tg { padding-top: calc(#{$nav-height} + #{$space-10}); padding-bottom: $space-24; min-height: 100vh; }
+  .tg__in { max-width: 800px; }
+  .tg__hd { margin-bottom: $space-10; }
+  .tg__back { display: inline-flex; align-items: center; gap: 4px; font-family: $font-mono; font-size: .65rem; color: var(--primary); text-decoration: none; margin-bottom: $space-4; transition: color .15s;
+    &:hover { color: var(--accent); }
+  }
+  .tg__t { font-family: $font-display; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: $weight-black; line-height: 1.1; color: var(--text); margin-bottom: $space-2;
+    [data-theme="dark"] & { color: $dark-text; }
+  }
+  .tg__d { font-size: .95rem; color: var(--text-light); }
+</style>
