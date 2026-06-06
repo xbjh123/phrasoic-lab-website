@@ -1742,6 +1742,6 @@ export const SITE = {
   tagline: "Research & Records",
   description: "个人知识库 · 设计笔记 · 技术档案",
   entries: POSTS.length,
-  since: "2021.03",
-  words: "~92K",
+  since: "2026.06",
+  words: "~33K",
 };
