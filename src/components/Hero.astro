@@ -20,7 +20,7 @@ function cardHTML(p: Post, id: string, front: boolean) {
     </div>
     <div class="cd-cv"><img src="${src}" alt="" class="cd-img" id="im-${id}" /></div>
     <div class="cd-bd">
-      <a href="/blog/${p.slug}" class="cd-lnk" id="lk-${id}"><h2 class="cd-tt" id="tt-${id}">${p.title}</h2></a>
+      <a href="/phrasoic-lab-website/blog/${p.slug}" class="cd-lnk" id="lk-${id}"><h2 class="cd-tt" id="tt-${id}">${p.title}</h2></a>
       <p class="cd-ex" id="ex-${id}">${p.excerpt}</p>
       <div class="cd-ds"></div>
       <div class="cd-mt">
@@ -34,7 +34,7 @@ function cardHTML(p: Post, id: string, front: boolean) {
         <span class="lang-en" id="fl-${id}">${p.label || 'LATEST TRANSMISSION'}</span>
         <span class="lang-zh" id="fz-${id}">${p.labelZh || '最新传输'}</span>
       </div>
-      <a href="/blog/${p.slug}" class="cd-flk" id="bl-${id}"><span class="lang-en">READ FULL ENTRY</span><span class="lang-zh">阅读全文</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a href="/phrasoic-lab-website/blog/${p.slug}" class="cd-flk" id="bl-${id}"><span class="lang-en">READ FULL ENTRY</span><span class="lang-zh">阅读全文</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     </div>
   </div>`;
 }
