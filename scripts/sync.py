@@ -3,7 +3,7 @@
 Sync Decap CMS markdown files → posts.ts
 Reads all .md files from src/content/blog/ and regenerates posts.ts.
 """
-import sys, os, re, json
+import sys, os, re, json, subprocess
 from pathlib import Path
 from datetime import datetime
 
@@ -182,7 +182,21 @@ def generate_posts_ts(posts_data, metadata):
         title = data.get('title', slug).replace('"', '\\"')
         excerpt = data.get('excerpt', '').replace('"', '\\"').replace('\n', ' ')[:150]
         body_html = md_to_html(body)
-        body_escaped = body_html.replace('\\', '\\\\').replace('`', '\\`').replace('${', '\\${')
+        # Protect math blocks from escaping
+        math_store = []
+        def save_math(m):
+            math_store.append(m.group(0))
+            return f'__MATH{len(math_store)-1}__'
+        body_html = re.sub(r'\$\$[\s\S]*?\$\$', save_math, body_html)
+        # Now safe to escape for template literal
+        body_escaped = body_html.replace('`', '\\`').replace('${', '\\${')
+        # Restore math blocks
+        for idx, original in enumerate(math_store):
+            body_escaped = body_escaped.replace(f'__MATH{idx}__', original)
+        # Also protect code blocks — replace \ with &#92; inside <code> tags
+        def fix_code(m):
+            return '<code>' + m.group(1).replace('\\', '&#92;') + '</code>'
+        body_escaped = re.sub(r'<code>([\s\S]*?)</code>', fix_code, body_escaped)
         date_str = data.get('date', datetime.now().strftime('%Y.%m.%d — %H:%M:%S'))
         cat = data.get('cat', 'SYSTEMS').upper()
         tags = data.get('tags', [])

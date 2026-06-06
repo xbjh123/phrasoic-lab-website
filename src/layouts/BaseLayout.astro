@@ -27,8 +27,7 @@ const pageTitle = title || 'PHRASOIC LAB';
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="/katex.min.css" />
-    <script is:inline src="/katex.min.js"></script>
-    <script is:inline src="/auto-render.min.js"></script>
+    <script is:inline src="/katex-bundle.js"></script>
   </head>
   <body>
     <div class="bg-layers">
@@ -40,18 +39,5 @@ const pageTitle = title || 'PHRASOIC LAB';
       <slot />
     </div>
 
-    <script is:inline>
-      window.addEventListener('load', function() {
-        if (typeof renderMathInElement === 'function') {
-          renderMathInElement(document.body, {
-            delimiters: [
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false}
-            ],
-            throwOnError: false
-          });
-        }
-      });
-    </script>
   </body>
 </html>

@@ -43,15 +43,15 @@ export const POSTS: Post[] = [
 <h2>2. 分类评估指标</h2>
 <h3>2.1 准确率（Accuracy）</h3>
 $$
-\\text{Accuracy} = \\frac{TP + TN}{TP + TN + FP + FN}
+\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
 $$
 <p>准确率是最直观的指标，但在类别不平衡时会产生误导。例如，在 99:1 的数据集中，即使模型全部预测多数类，准确率也能达到 99%。</p>
 <h3>2.2 精确率（Precision）</h3>
 $$
-\\text{Precision} = \\frac{TP}{TP + FP}
+\text{Precision} = \frac{TP}{TP + FP}
 $$
 $$
-\\text{Precision} = \\frac{\\text{预测正确的正类数}}{\\text{模型认为的正类总数}}
+\text{Precision} = \frac{\text{预测正确的正类数}}{\text{模型认为的正类总数}}
 $$
 <p>精确率衡量的是：<strong>模型预测为正类的样本中，有多少是真正的正类？</strong></p>
 <p><strong>应用场景：</strong></p>
@@ -61,10 +61,10 @@ $$
 </ul>
 <h3>2.3 召回率（Recall / Sensitivity）</h3>
 $$
-\\text{Recall} = \\frac{TP}{TP + FN}
+\text{Recall} = \frac{TP}{TP + FN}
 $$
 $$
-\\text{Recall} = \\frac{\\text{预测正确的正类数}}{\\text{实际的正类总数}}
+\text{Recall} = \frac{\text{预测正确的正类数}}{\text{实际的正类总数}}
 $$
 <p>召回率衡量的是：<strong>所有真正的正类样本中，模型找出了多少？</strong></p>
 <p><strong>应用场景：</strong></p>
@@ -75,7 +75,7 @@ $$
 <h3>2.4 F1 分数（F1-Score）</h3>
 <p>F1 是精确率和召回率的调和平均数：</p>
 $$
-F1 = 2 \\times \\frac{\\text{Precision} \\times \\text{Recall}}{\\text{Precision} + \\text{Recall}}
+F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
 $$
 <p>F1 分数在精确率和召回率之间取得平衡，适用于需要同时关注两者的场景。</p>
 <h3>2.5 Precision-Recall 权衡</h3>
@@ -100,7 +100,7 @@ $$
 </ul>
 <h3>3.2 AUC（Area Under Curve）</h3>
 $$
-\\text{AUC} = \\int_{0}^{1} \\text{TPR}(\\text{FPR}) \\, d(\\text{FPR})
+\text{AUC} = \int_{0}^{1} \text{TPR}(\text{FPR}) \, d(\text{FPR})
 $$
 <p>AUC 的直观解释：<strong>随机选取一个正样本和一个负样本，模型给正样本打分高于负样本的概率。</strong></p>
 <p><strong>AUC 值的含义：</strong></p>
@@ -114,22 +114,22 @@ $$
 <h2>4. 回归评估指标</h2>
 <h3>4.1 均方误差（MSE）</h3>
 $$
-\\text{MSE} = \\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2
+\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
 $$
 <p>MSE 对大误差惩罚更重，但对异常值敏感。</p>
 <h3>4.2 均方根误差（RMSE）</h3>
 $$
-\\text{RMSE} = \\sqrt{\\text{MSE}} = \\sqrt{\\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2}
+\text{RMSE} = \sqrt{\text{MSE}} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
 $$
 <p>RMSE 与原始数据单位一致，更易解释。</p>
 <h3>4.3 平均绝对误差（MAE）</h3>
 $$
-\\text{MAE} = \\frac{1}{n} \\sum_{i=1}^{n} |y_i - \\hat{y}_i|
+\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
 $$
 <p>MAE 对异常值更鲁棒，但梯度不连续。</p>
 <h3>4.4 R² 决定系数</h3>
 $$
-R^2 = 1 - \\frac{\\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2}{\\sum_{i=1}^{n} (y_i - \\bar{y})^2}
+R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
 $$
 <p>R² 表示模型解释的方差比例：</p>
 <ul>
@@ -148,7 +148,7 @@ $$
 <li>重复 K 次，取平均性能</li>
 </ol>
 $$
-\\text{CV Score} = \\frac{1}{K} \\sum_{k=1}^{K} \\text{Score}_k
+\text{CV Score} = \frac{1}{K} \sum_{k=1}^{K} \text{Score}_k
 $$
 <p><strong>常用 K 值：</strong></p>
 <ul>
@@ -234,7 +234,7 @@ content = f.read()
 <tr><td>打开文件</td><td><code>open(path, mode)</code></td><td><code>std::ifstream</code> / <code>std::ofstream</code></td></tr>
 <tr><td>自动关闭</td><td><code>with</code> 语句（上下文管理器）</td><td>RAII（析构时关闭）</td></tr>
 <tr><td>编码处理</td><td><code>encoding="utf-8"</code> 参数</td><td>需手动设置 locale 或转换</td></tr>
-<tr><td>换行符</td><td>自动处理 <code>\\n</code></td><td><code>\\n</code> / <code>\\r\\n</code> 需手动处理</td></tr>
+<tr><td>换行符</td><td>自动处理 <code>&#92;n</code></td><td><code>&#92;n</code> / <code>&#92;r&#92;n</code> 需手动处理</td></tr>
 </table>
 <h3>1.2 文件模式</h3>
 <table>
@@ -255,7 +255,7 @@ with open("data.txt", "r", encoding="utf-8") as f:
 content = f.read()          # 字符串
 # ② 按行读取为列表
 with open("data.txt", "r", encoding="utf-8") as f:
-lines = f.readlines()       # ['line1\\n', 'line2\\n', ...]
+lines = f.readlines()       # ['line1&#92;n', 'line2&#92;n', ...]
 # ③ 逐行迭代（内存友好，适合大文件）
 with open("data.txt", "r", encoding="utf-8") as f:
 for line in f:
@@ -268,13 +268,13 @@ chunk = f.read(1024)        # 读 1024 字节
 <pre><code>
 # 覆盖写入
 with open("out.txt", "w", encoding="utf-8") as f:
-f.write("Hello, World!\\n")
-f.write("Second line\\n")
+f.write("Hello, World!&#92;n")
+f.write("Second line&#92;n")
 # 追加写入
 with open("log.txt", "a", encoding="utf-8") as f:
-f.write("New log entry\\n")
+f.write("New log entry&#92;n")
 # 写入多行
-lines = ["a\\n", "b\\n", "c\\n"]
+lines = ["a&#92;n", "b&#92;n", "c&#92;n"]
 with open("out.txt", "w", encoding="utf-8") as f:
 f.writelines(lines)
 </code></pre>
@@ -295,7 +295,7 @@ encoding="utf-8"
 <table>
 <tr><th>参数</th><th>作用</th></tr>
 <tr><td><code>indent=2</code></td><td>格式化缩进</td></tr>
-<tr><td><code>ensure_ascii=False</code></td><td>中文不转义为 <code>\\uXXXX</code></td></tr>
+<tr><td><code>ensure_ascii=False</code></td><td>中文不转义为 <code>&#92;uXXXX</code></td></tr>
 <tr><td><code>sort_keys=True</code></td><td>按键排序输出</td></tr>
 </table>
 <h2>3. CSV 文件处理</h2>
@@ -463,7 +463,7 @@ content = f.read()
 <li><code>'a'</code>：追加模式，<strong>保留</strong>已有内容，在末尾追加</li>
 </ul>
 <p><strong>3. <code>newline=""</code> 在打开 CSV 文件时为什么重要？</strong></p>
-<p><strong>答案：</strong> Windows 下文本模式的换行符转换会导致 CSV 写入时多出空行。<code>newline=""</code> 禁用自动转换，保证 <code>\\n</code> 原样写入。</p>
+<p><strong>答案：</strong> Windows 下文本模式的换行符转换会导致 CSV 写入时多出空行。<code>newline=""</code> 禁用自动转换，保证 <code>&#92;n</code> 原样写入。</p>
 <p><strong>4. 逐行读取大文件的最佳方式是什么？</strong></p>
 <p><strong>答案：</strong></p>
 <pre><code>
@@ -570,7 +570,7 @@ from pathlib import Path
 Path("a/b/c").mkdir(parents=True, exist_ok=True)
 </code></pre>
 <p><strong>19. <code>json.dumps</code> 的 <code>ensure_ascii=False</code> 有什么作用？</strong></p>
-<p><strong>答案：</strong> 禁用 ASCII 转义，让中文字符直接输出为 <code>"中文"</code> 而不是 <code>"\\u4e2d\\u6587"</code>。</p>
+<p><strong>答案：</strong> 禁用 ASCII 转义，让中文字符直接输出为 <code>"中文"</code> 而不是 <code>"&#92;u4e2d&#92;u6587"</code>。</p>
 <p><strong>20. <code>FileNotFoundError</code> 继承自哪个类？</strong></p>
 <p><strong>答案：</strong> <code>OSError</code> → <code>Exception</code> → <code>BaseException</code></p>
 <pre><code>
@@ -664,12 +664,12 @@ return {}
 <table>
 <tr><th>符号</th><th>含义</th><th>示例</th></tr>
 <tr><td><code>.</code></td><td>匹配任意单个字符（除换行符）</td><td><code>a.c</code> → <code>abc</code>, <code>a c</code></td></tr>
-<tr><td><code>\\d</code></td><td>数字 <code>[0-9]</code></td><td><code>\\d{3}</code> → <code>123</code></td></tr>
-<tr><td><code>\\w</code></td><td>单词字符 <code>[a-zA-Z0-9_]</code></td><td><code>\\w+</code> → <code>hello_123</code></td></tr>
-<tr><td><code>\\s</code></td><td>空白字符（空格、制表、换行等）</td><td><code>a\\s+b</code> → <code>a   b</code></td></tr>
+<tr><td><code>&#92;d</code></td><td>数字 <code>[0-9]</code></td><td><code>&#92;d{3}</code> → <code>123</code></td></tr>
+<tr><td><code>&#92;w</code></td><td>单词字符 <code>[a-zA-Z0-9_]</code></td><td><code>&#92;w+</code> → <code>hello_123</code></td></tr>
+<tr><td><code>&#92;s</code></td><td>空白字符（空格、制表、换行等）</td><td><code>a&#92;s+b</code> → <code>a   b</code></td></tr>
 <tr><td><code>^</code></td><td>字符串开头</td><td><code>^abc</code> → 仅匹配开头的 <code>abc</code></td></tr>
 <tr><td><code>$</code></td><td>字符串结尾</td><td><code>xyz$</code> → 仅匹配结尾的 <code>xyz</code></td></tr>
-<tr><td><code>\\</code></td><td>转义字符</td><td><code>\\.</code> 匹配真实点号</td></tr>
+<tr><td><code>&#92;</code></td><td>转义字符</td><td><code>&#92;.</code> 匹配真实点号</td></tr>
 </table>
 <h3>1.2 字符类（Character Classes）</h3>
 <table>
@@ -677,7 +677,7 @@ return {}
 <tr><td><code>[abc]</code></td><td>匹配 <code>a</code>、<code>b</code> 或 <code>c</code></td></tr>
 <tr><td><code>[^abc]</code></td><td>匹配<strong>非</strong> <code>a</code>、<code>b</code>、<code>c</code> 的字符</td></tr>
 <tr><td><code>[a-z]</code> / <code>[0-9]</code></td><td>范围匹配</td></tr>
-<tr><td><code>\\D</code> / <code>\\W</code> / <code>\\S</code></td><td><code>\\d</code>/<code>\\w</code>/<code>\\s</code> 的反义</td></tr>
+<tr><td><code>&#92;D</code> / <code>&#92;W</code> / <code>&#92;S</code></td><td><code>&#92;d</code>/<code>&#92;w</code>/<code>&#92;s</code> 的反义</td></tr>
 </table>
 <h3>1.3 量词（Quantifiers）</h3>
 <table>
@@ -693,10 +693,10 @@ return {}
 <h3>1.4 分组与捕获</h3>
 <table>
 <tr><th>语法</th><th>含义</th></tr>
-<tr><td><code>(abc)</code></td><td>捕获组，可通过 <code>$1</code>、<code>\\1</code> 引用</td></tr>
+<tr><td><code>(abc)</code></td><td>捕获组，可通过 <code>$1</code>、<code>&#92;1</code> 引用</td></tr>
 <tr><td><code>(?:abc)</code></td><td>非捕获组（不保存匹配结果，提升性能）</td></tr>
 <tr><td><code>(?<name>abc)</code></td><td>命名捕获组（部分引擎支持）</td></tr>
-<tr><td><code>\\1</code> / <code>$1</code></td><td>引用第 1 个捕获组的内容</td></tr>
+<tr><td><code>&#92;1</code> / <code>$1</code></td><td>引用第 1 个捕获组的内容</td></tr>
 </table>
 <h3>1.5 断言 / 环视（Lookarounds）</h3>
 <table>
@@ -704,7 +704,7 @@ return {}
 <tr><td><code>(?=abc)</code></td><td>正向先行断言：后面必须是 <code>abc</code></td><td><code>foo(?=bar)</code> → 匹配 <code>foo</code>（仅当后面是 <code>bar</code>）</td></tr>
 <tr><td><code>(?!abc)</code></td><td>负向先行断言：后面不能是 <code>abc</code></td><td><code>foo(?!bar)</code></td></tr>
 <tr><td><code>(?<=abc)</code></td><td>正向后行断言：前面必须是 <code>abc</code></td><td><code>(?<=@)gmail</code> → 匹配 <code>@gmail</code> 中的 <code>gmail</code></td></tr>
-<tr><td><code>(?<!abc)</code></td><td>负向后行断言：前面不能是 <code>abc</code></td><td><code>(?<!\\$)\\d+</code> → 匹配非美元符号后的数字</td></tr>
+<tr><td><code>(?<!abc)</code></td><td>负向后行断言：前面不能是 <code>abc</code></td><td><code>(?<!&#92;$)&#92;d+</code> → 匹配非美元符号后的数字</td></tr>
 </table>
 <blockquote>⚠️ 后行断言 <code>(?<=)</code> / <code>(?<!)</code> 在 JavaScript (ES2018+)、Python、PCRE 中支持，旧版引擎可能报错。</blockquote>
 <h2>🛠 2. 常用修饰符（Flags）</h2>
@@ -713,17 +713,17 @@ return {}
 <tr><td><code>i</code></td><td>忽略大小写</td><td><code>/abc/i</code> 匹配 <code>ABC</code>、<code>Abc</code></td></tr>
 <tr><td><code>g</code></td><td>全局匹配</td><td>查找所有匹配项而非仅第一个</td></tr>
 <tr><td><code>m</code></td><td>多行模式</td><td><code>^</code> 和 <code>$</code> 匹配每行开头/结尾</td></tr>
-<tr><td><code>s</code></td><td>单行模式（DotAll）</td><td><code>.</code> 可匹配换行符 <code>\\n</code></td></tr>
+<tr><td><code>s</code></td><td>单行模式（DotAll）</td><td><code>.</code> 可匹配换行符 <code>&#92;n</code></td></tr>
 <tr><td><code>u</code></td><td>Unicode 模式</td><td>正确处理 emoji、多字节字符</td></tr>
 </table>
 <h2>📝 3. 实战示例</h2>
 <table>
 <tr><th>需求</th><th>正则表达式</th><th>说明</th><th></th><th></th><th></th><th></th></tr>
-<tr><td>中国大陆手机号</td><td><code>^1[3-9]\\d{9}$</code></td><td>11位，首位1，第二位3-9</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>邮箱（实用版）</td><td><code>^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$</code></td><td>覆盖99%常见邮箱，RFC5322完整规则极复杂</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>强密码（≥8位，含大小写+数字）</td><td><code>^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$</code></td><td>使用先行断言组合校验</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>提取 HTML 标签内容</td><td><code><([a-z]+)[^>]*>(.*?)</\\1></code></td><td><code>\\1</code> 反向引用闭合标签，<code>.*?</code> 防贪婪</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>匹配 IPv4 地址</td><td>\`\\b(?:(?:25[0-5]</td><td>2[0-4]\\d</td><td>[01]?\\d\\d?)\\.){3}(?:25[0-5]</td><td>2[0-4]\\d</td><td>[01]?\\d\\d?)\\b\`</td><td>精确范围校验，避免 <code>999.999.999.999</code></td></tr>
+<tr><td>中国大陆手机号</td><td><code>^1[3-9]&#92;d{9}$</code></td><td>11位，首位1，第二位3-9</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>邮箱（实用版）</td><td><code>^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+&#92;.[a-zA-Z]{2,}$</code></td><td>覆盖99%常见邮箱，RFC5322完整规则极复杂</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>强密码（≥8位，含大小写+数字）</td><td><code>^(?=.*[a-z])(?=.*[A-Z])(?=.*&#92;d)[a-zA-Z&#92;d]{8,}$</code></td><td>使用先行断言组合校验</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>提取 HTML 标签内容</td><td><code><([a-z]+)[^>]*>(.*?)</&#92;1></code></td><td><code>&#92;1</code> 反向引用闭合标签，<code>.*?</code> 防贪婪</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>匹配 IPv4 地址</td><td>\`\b(?:(?:25[0-5]</td><td>2[0-4]\d</td><td>[01]?\d\d?)\.){3}(?:25[0-5]</td><td>2[0-4]\d</td><td>[01]?\d\d?)\b\`</td><td>精确范围校验，避免 <code>999.999.999.999</code></td></tr>
 </table>
 <h2>🚫 4. 最佳实践与避坑指南</h2>
 <ol>
@@ -739,7 +739,7 @@ return {}
 <li><strong>复杂逻辑拆分为多步</strong><br>不要试图用一个正则解决所有问题。先用正则粗筛，再用代码精处理。</li>
 </ol>
 <ol>
-<li><strong>注意代码中的转义</strong><br>在字符串中写正则需双转义：<code>"\\\\d+\\\\s*"</code>（Python/JS），或使用原始字符串 <code>r"\\d+\\s*"</code>（Python）。</li>
+<li><strong>注意代码中的转义</strong><br>在字符串中写正则需双转义：<code>"&#92;&#92;d+&#92;&#92;s*"</code>（Python/JS），或使用原始字符串 <code>r"&#92;d+&#92;s*"</code>（Python）。</li>
 </ol>
 <h2>🧪 5. 推荐测试工具</h2>
 <table>
@@ -765,7 +765,7 @@ return {}
 <tr><td>命名捕获 <code>(?<name>)</code></td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
 <tr><td>原子组 <code>(?>)</code></td><td>❌</td><td>❌</td><td>✅</td><td>✅</td></tr>
 <tr><td>占有量词 <code>++</code>/<code>*+</code></td><td>❌</td><td>❌</td><td>✅</td><td>✅</td></tr>
-<tr><td>Unicode 属性 <code>\\p{L}</code></td><td>✅ (u标志)</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>Unicode 属性 <code>&#92;p{L}</code></td><td>✅ (u标志)</td><td>✅</td><td>✅</td><td>✅</td></tr>
 </table>
 <p>📌 <strong>学习建议</strong>：正则不是“背”出来的，而是“练”出来的。遇到需求时，先拆解目标文本结构，再逐步拼接模式，配合 Regex101 实时调试，1~2 周即可熟练上手。</p>
 <p>需要针对某个具体场景（如日志解析、Markdown 批量替换、数据清洗）定制正则模板，可告诉我你的原始文本与目标格式，我为你生成并逐段解释。</p>`,
