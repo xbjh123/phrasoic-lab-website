@@ -182,6 +182,15 @@ def generate_posts_ts(posts_data, metadata):
         title = data.get('title', slug).replace('"', '\\"')
         excerpt = data.get('excerpt', '').replace('"', '\\"').replace('\n', ' ')[:150]
         body_html = md_to_html(body)
+        # Pre-render math with KaTeX via Node.js
+        import tempfile
+        tmpfile = tempfile.NamedTemporaryFile(mode='w', suffix='.html', delete=False, dir='/tmp')
+        tmpfile.write(body_html)
+        tmpfile.close()
+        result = subprocess.run(['node', 'scripts/render_math.mjs', tmpfile.name], capture_output=True, text=True, cwd=os.getcwd())
+        body_html = open(tmpfile.name).read() if result.returncode == 0 else body_html
+        try: os.unlink(tmpfile.name)
+        except: pass
         # Protect math blocks from escaping
         math_store = []
         def save_math(m):
