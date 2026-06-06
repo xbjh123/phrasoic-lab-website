@@ -17,7 +17,7 @@ const SITE_NAME = 'PHRASOIC LAB';
       </header>
       <div class="ar__list">
         {POSTS.map((p) => (
-          <a href={`/blog/${p.slug || p.docId}`} class="ar__item">
+          <a href={`/phrasoic-lab-website/blog/${p.slug || p.docId}`} class="ar__item">
             <div class="ar__item-bar"><span class="ar__dot"></span><span class="ar__cat">{p.cat}</span><span class="ar__doc">{p.docId}</span></div>
             <div class="ar__item-body">
               <h2 class="ar__item-title">{p.title}</h2>
